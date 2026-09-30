@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skycast - Weather Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="logo" href="index.html" aria-label="Skycast home">
+      <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+        <circle cx="18" cy="18" r="9" fill="#ffc94d"/>
+        <path d="M14 38h22a8 8 0 0 0 .8-16A11 11 0 0 0 16 24a7 7 0 0 0-2 14z" fill="#e8f1ff"/>
+      </svg>
+      <span>Skycast</span>
+    </a>
+    <nav>
+      <a class="nav-link active" href="index.html">Dashboard</a>
+      <a class="nav-link" href="tables.html">Tables</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <form id="search-form" class="search" autocomplete="off">
+        <label class="sr-only" for="city-input">City name</label>
+        <input id="city-input" type="text" placeholder="Search for a city, e.g. Peshawar">
+        <button type="submit">Get Weather</button>
+      </form>
+      <div class="units" role="group" aria-label="Temperature unit">
+        <button type="button" data-unit="C" aria-pressed="true">°C</button>
+        <button type="button" data-unit="F" aria-pressed="false">°F</button>
+      </div>
+    </header>
+
+    <p id="error" class="error" role="alert" hidden></p>
+    <div id="spinner" class="spinner-wrap" hidden><span class="spinner"></span>Loading weather…</div>
+
+    <section id="widget" class="widget bg-clear" hidden aria-live="polite">
+      <div class="widget-main">
+        <div>
+          <h1 id="w-city"></h1>
+          <p id="w-date" class="muted"></p>
+          <p id="w-temp" class="temp"></p>
+          <p id="w-desc" class="desc"></p>
+        </div>
+        <img id="w-icon" class="w-icon" alt="">
+      </div>
+      <dl class="stats">
+        <div><dt>Feels like</dt><dd id="w-feels"></dd></div>
+        <div><dt>Humidity</dt><dd id="w-humidity"></dd></div>
+        <div><dt>Wind</dt><dd id="w-wind"></dd></div>
+      </dl>
+    </section>
+
+    <!-- Day 4: the three Chart.js charts go here -->
+
+    <section id="forecast-section" hidden>
+      <h2>5-day forecast</h2>
+      <div id="forecast" class="forecast"></div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
