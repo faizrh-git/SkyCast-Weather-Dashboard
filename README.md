@@ -3,7 +3,7 @@
 A responsive weather dashboard built with HTML, CSS and vanilla JavaScript.
 Course: SE-3003 Web Engineering, Assignment 02.
 
-**Live demo:** _paste your GitHub Pages URL here_
+**Live demo:** https://faizrh-git.github.io/SkyCast-Weather-Dashboard/
 
 ## Features
 - **Current weather** for any city: temperature, humidity, wind speed, description and icon

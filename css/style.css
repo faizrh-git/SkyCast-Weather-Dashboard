@@ -128,3 +128,14 @@ td img { width: 34px; height: 34px; vertical-align: middle; margin-right: 6px; }
 .chat-panel form button { padding: 10px 14px; border: 0; border-radius: 10px; background: var(--navy); color: #fff; }
 .chat-panel form button:disabled { opacity: .6; }
 @media (max-width: 480px) { .chat-panel { right: 16px; bottom: 84px; height: 65vh; } .chat-fab { right: 16px; bottom: 16px; } }
+
+/* ---------- welcome screen ---------- */
+.welcome { text-align: center; padding: clamp(36px, 8vw, 72px) 24px; border-radius: 24px; color: #fff; background: linear-gradient(135deg, #2563d6, #3fa9e8); margin-bottom: 30px; }
+.welcome h1 { margin: 14px 0 8px; font-size: clamp(1.9rem, 5vw, 2.8rem); font-weight: 500; }
+.welcome p { margin: 0 auto 22px; max-width: 46ch; font-size: 1.1rem; opacity: .95; }
+.welcome .hint { margin: 28px auto 12px; font-size: .95rem; opacity: .85; }
+.welcome-btn { border: 0; background: #fff; color: var(--navy); font-weight: 500; padding: 13px 26px; border-radius: 12px; }
+.welcome-btn:hover { background: #eef4ff; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.chips button { border: 1px solid rgba(255,255,255,.7); background: rgba(255,255,255,.14); color: #fff; padding: 9px 18px; border-radius: 999px; }
+.chips button:hover { background: rgba(255,255,255,.28); }

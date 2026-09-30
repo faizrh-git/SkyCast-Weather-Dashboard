@@ -57,6 +57,8 @@
     const widget = $("widget");
     widget.className = "widget " + WeatherData.backgroundClass(w.main, w.icon);
     widget.hidden = false;
+    $("welcome").hidden = true;
+    $("charts").hidden = false;
 
     $("w-city").textContent = `${c.name}, ${c.sys.country}`;
     $("w-date").textContent = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
@@ -110,16 +112,31 @@
       b.setAttribute("aria-pressed", String(b.dataset.unit === unit)));
   }
 
-  // ---- start: use the user's location, else last city, else London ----
-  function init() {
-    syncUnitButtons();
-    const fallback = () => loadCity(localStorage.getItem("lastCity") || "London");
-    if (!navigator.geolocation) return fallback();
+  // ---- welcome screen actions ----
+  function useMyLocation() {
+    if (!navigator.geolocation) {
+      showError("Your browser does not support location. Search for a city instead.");
+      return;
+    }
+    showError("");
+    setLoading(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => loadCoords(pos.coords.latitude, pos.coords.longitude),
-      fallback,
+      () => {
+        setLoading(false);
+        showError("Location access was blocked. Search for a city instead.");
+      },
       { timeout: 8000 }
     );
   }
-  init();
+
+  $("use-location").addEventListener("click", useMyLocation);
+  document.querySelectorAll(".chips button").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      input.value = btn.dataset.city;
+      loadCity(btn.dataset.city);
+    }));
+
+  // Nothing loads on start: the welcome screen shows until the user picks a city.
+  syncUnitButtons();
 })();
