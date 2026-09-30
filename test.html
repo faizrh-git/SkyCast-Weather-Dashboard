@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data layer test</title>
+</head>
+<body>
+  <h3>Data layer test (open DevTools console)</h3>
+  <input id="city" value="London">
+  <button id="go">Run</button>
+  <pre id="out"></pre>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script>
+    document.getElementById("go").onclick = async () => {
+      const out = document.getElementById("out");
+      try {
+        const city = document.getElementById("city").value;
+        const [current, forecast] = await Promise.all([
+          WeatherAPI.getCurrentByCity(city),
+          WeatherAPI.getForecastByCity(city)
+        ]);
+        const entries = WeatherData.toEntries(forecast);
+        const daily = WeatherData.toDailySummaries(entries);
+        const result = {
+          current: current.weather[0].description + ", " + current.main.temp + "°C",
+          entries: entries.length,
+          daily,
+          percentages: WeatherData.conditionPercentages(daily),
+          hottest: WeatherData.hottest(entries),
+          rainEntries: WeatherData.rainOnly(entries).length,
+          page1: WeatherData.paginate(entries, 1).items.length
+        };
+        console.log(result);
+        out.textContent = JSON.stringify(result, null, 2);
+      } catch (e) {
+        out.textContent = "ERROR (" + e.code + "): " + e.message;
+      }
+    };
+  </script>
+</body>
+</html>
