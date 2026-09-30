@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skycast - Forecast Table</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="logo" href="index.html" aria-label="Skycast home">
+      <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+        <circle cx="18" cy="18" r="9" fill="#ffc94d"/>
+        <path d="M14 38h22a8 8 0 0 0 .8-16A11 11 0 0 0 16 24a7 7 0 0 0-2 14z" fill="#e8f1ff"/>
+      </svg>
+      <span>Skycast</span>
+    </a>
+    <nav>
+      <a class="nav-link" href="index.html">Dashboard</a>
+      <a class="nav-link active" href="tables.html">Tables</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <form id="search-form" class="search" autocomplete="off">
+        <label class="sr-only" for="city-input">City name</label>
+        <input id="city-input" type="text" placeholder="Search for a city, e.g. Peshawar">
+        <button type="submit">Get Weather</button>
+      </form>
+      <div class="units" role="group" aria-label="Temperature unit">
+        <button type="button" data-unit="C" aria-pressed="true">°C</button>
+        <button type="button" data-unit="F" aria-pressed="false">°F</button>
+      </div>
+    </header>
+
+    <p id="error" class="error" role="alert" hidden></p>
+    <div id="spinner" class="spinner-wrap" hidden><span class="spinner"></span>Loading forecast…</div>
+
+    <h1 id="page-title" class="page-title">Temperature forecast</h1>
+
+    <div class="filters" role="group" aria-label="Filters">
+      <button type="button" data-filter="all" aria-pressed="true">All entries</button>
+      <button type="button" data-filter="asc" aria-pressed="false">Temperature: low to high</button>
+      <button type="button" data-filter="desc" aria-pressed="false">Temperature: high to low</button>
+      <button type="button" data-filter="rain" aria-pressed="false">Rain only</button>
+      <button type="button" data-filter="hottest" aria-pressed="false">Highest temperature</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Date</th><th>Time</th><th>Temperature</th><th>Conditions</th></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+      <p id="empty" class="empty" hidden></p>
+    </div>
+    <nav id="pager" class="pager" aria-label="Pagination"></nav>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/tables.js"></script>
+</body>
+</html>

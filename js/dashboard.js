@@ -74,6 +74,7 @@
     icon.classList.add("pop");
 
     renderForecast();
+    Charts.render(state.daily, unit);
   }
 
   function renderForecast() {
