@@ -6,7 +6,7 @@ JavaScript. It was developed for **SE-3003 Web Engineering, Assignment
 it without downloading or running the project locally.
 
 **Live website:**
-https://faizrh-git.github.io/SkyCast-Weather-Dashboard/\
+https://faizrh-git.github.io/SkyCast-Weather-Dashboard/
 **Cloudflare Worker (API proxy):**
 https://skycast-proxy.skycastweather.workers.dev
 
