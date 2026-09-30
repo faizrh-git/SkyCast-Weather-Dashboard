@@ -110,3 +110,21 @@ td img { width: 34px; height: 34px; vertical-align: middle; margin-right: 6px; }
 .pager button { min-width: 40px; padding: 9px 12px; border: 1px solid #ccd4e2; background: var(--card); border-radius: 10px; }
 .pager button[aria-current="page"] { background: var(--accent); border-color: var(--accent); color: #fff; }
 .pager button:disabled { opacity: .45; cursor: default; }
+
+/* ---------- chatbot window ---------- */
+.chat-fab { position: fixed; right: 20px; bottom: 20px; width: 56px; height: 56px; border: 0; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; box-shadow: 0 6px 18px rgba(20,33,61,.3); z-index: 20; }
+.chat-fab:hover { background: #2c66d8; }
+.chat-panel { position: fixed; right: 20px; bottom: 88px; width: 350px; max-width: calc(100vw - 32px); height: 470px; max-height: calc(100vh - 120px); background: var(--card); border-radius: 18px; box-shadow: 0 12px 40px rgba(20,33,61,.28); display: flex; flex-direction: column; overflow: hidden; z-index: 20; }
+.chat-panel header { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--navy); color: #fff; }
+.chat-panel header button { border: 0; background: transparent; color: #fff; font-size: 1.1rem; padding: 4px 8px; }
+.chat-log { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 8px; background: var(--paper); }
+.msg { max-width: 85%; padding: 9px 13px; border-radius: 14px; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere; }
+.msg.user { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: var(--card); border-bottom-left-radius: 4px; }
+.msg.error { align-self: flex-start; background: #fdecea; color: var(--danger); }
+.msg.pending { color: var(--muted); font-style: italic; }
+.chat-panel form { display: flex; gap: 8px; padding: 10px; border-top: 1px solid #e3e8f1; }
+.chat-panel input { flex: 1; min-width: 0; padding: 10px 12px; font: inherit; border: 1px solid #ccd4e2; border-radius: 10px; }
+.chat-panel form button { padding: 10px 14px; border: 0; border-radius: 10px; background: var(--navy); color: #fff; }
+.chat-panel form button:disabled { opacity: .6; }
+@media (max-width: 480px) { .chat-panel { right: 16px; bottom: 84px; height: 65vh; } .chat-fab { right: 16px; bottom: 16px; } }
