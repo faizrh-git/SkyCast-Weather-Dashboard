@@ -1,0 +1,17 @@
+name = "skycast-proxy"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+# Websites allowed to call this proxy (comma separated, no trailing slash).
+[vars]
+ALLOWED_ORIGINS = "https://faizrh-git.github.io,http://localhost:5500,http://127.0.0.1:5500"
+GEMINI_MODEL = "gemini-flash-latest"
+
+# At most 30 requests per minute per visitor (per Cloudflare location).
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 30
+  period = 60

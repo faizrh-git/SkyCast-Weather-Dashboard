@@ -22,18 +22,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-
-      # config.js is git-ignored, so build it from repository secrets
-      - name: Create js/config.js from secrets
-        run: |
-          cat > js/config.js <<EOF
-          window.APP_CONFIG = {
-            OPENWEATHER_API_KEY: "${{ secrets.OPENWEATHER_API_KEY }}",
-            GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}",
-            GEMINI_MODEL: "gemini-flash-latest"
-          };
-          EOF
-
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -9,10 +9,6 @@
  * Needs api.js (WeatherAPI, WeatherData) and config.js to be loaded first.
  */
 (function () {
-  const GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta";
-  const SYSTEM_PROMPT =
-    "You are a friendly assistant inside a weather dashboard app. " +
-    "Answer general questions clearly and briefly (under 120 words unless asked for more).";
   const MAX_HISTORY = 11; // odd number so the slice always starts with a user turn
 
   const WEATHER_WORDS = /\b(weather|forecast|temperature)\b/i;
@@ -74,23 +70,19 @@
   }
 
   async function askGemini(text) {
-    const cfg = window.APP_CONFIG || {};
-    if (!cfg.GEMINI_API_KEY || cfg.GEMINI_API_KEY.startsWith("YOUR_")) {
-      return { type: "error", text: "Gemini API key is missing. Check js/config.js." };
+    const base = window.APP_CONFIG && window.APP_CONFIG.API_BASE;
+    if (!base || base.includes("YOUR-")) {
+      return { type: "error", text: "The chat service address is not set. Check js/config.js." };
     }
-    const model = cfg.GEMINI_MODEL || "gemini-flash-latest";
 
     history.push({ role: "user", parts: [{ text }] });
 
     let res;
     try {
-      res = await fetchWithRetry(`${GEMINI_BASE}/models/${model}:generateContent`, {
+      res = await fetchWithRetry(`${base.replace(/\/$/, "")}/api/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": cfg.GEMINI_API_KEY },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: history.slice(-MAX_HISTORY)
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents: history.slice(-MAX_HISTORY) })
       });
     } catch (e) {
       history.pop();
@@ -100,13 +92,13 @@
     if (!res.ok) {
       history.pop();
       const messages = {
-        400: "Gemini rejected the request (check your API key and model name in config.js).",
-        403: "Gemini API key is not allowed to do this. Check the key.",
-        404: "Gemini model not found. Update GEMINI_MODEL in config.js.",
-        429: "Gemini rate limit reached. Please wait a minute and try again.",
-        503: "Gemini is very busy right now. Please try again in a moment."
+        400: "The chat service rejected that message. Try rephrasing.",
+        403: "The chat service is not available right now.",
+        413: "That message is too long.",
+        429: "Too many messages. Please wait a minute and try again.",
+        503: "The assistant is very busy right now. Please try again in a moment."
       };
-      return { type: "error", text: messages[res.status] || `Gemini error (${res.status}). Try again later.` };
+      return { type: "error", text: messages[res.status] || `Chat error (${res.status}). Try again later.` };
     }
 
     const data = await res.json();
@@ -116,7 +108,7 @@
 
     if (!reply) {
       history.pop();
-      return { type: "error", text: "Gemini did not return an answer. Try rephrasing." };
+      return { type: "error", text: "The assistant did not return an answer. Try rephrasing." };
     }
     history.push({ role: "model", parts: [{ text: reply }] });
     return { type: "ai", text: reply };
@@ -129,24 +121,10 @@
     return isWeatherQuery(msg) ? handleWeather(msg) : askGemini(msg);
   }
 
-  /** Debug helper: lists model names your key can use. */
-  async function listModels() {
-    const res = await fetch(`${GEMINI_BASE}/models`, {
-      headers: { "x-goog-api-key": window.APP_CONFIG.GEMINI_API_KEY }
-    });
-    const data = await res.json();
-    const names = (data.models || [])
-      .filter((m) => (m.supportedGenerationMethods || []).includes("generateContent"))
-      .map((m) => m.name.replace("models/", ""));
-    console.log(names);
-    return names;
-  }
-
   window.GeminiChat = {
     sendMessage,
     isWeatherQuery,
     extractCity,
-    listModels,
     setDefaultCity: (c) => (defaultCity = c),
     getLastWeather: () => lastWeather
   };
